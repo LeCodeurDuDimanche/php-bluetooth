@@ -17,16 +17,16 @@
 
     $device = $info->getPairedDevices()[0];
     echo "Connecting to paired device $device\n";
-    $manager->connect($device->mac);
+    $manager->connect($device);
     usleep(10000000);
     echo "Disconnecting from device\n";
-    $manager->connect($device->mac, false);
+    $manager->connect($device, false);
     usleep(5000000);
     echo "Blocking device\n";
-    $manager->blockDevice($device->mac);
+    $manager->blockDevice($device);
     usleep(5000000);
     echo "Unblocking device\n";
-    $manager->blockDevice($device->mac, false);
+    $manager->blockDevice($device, false);
 
     while (true)
     {

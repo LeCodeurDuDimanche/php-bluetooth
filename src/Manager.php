@@ -168,29 +168,29 @@ class Manager {
         $this->send("add-scanned-devices", true);
     }
 
-    public function pairDevice(string $device) : void
+    public function pairDevice(Device $device) : void
     {
-        $this->send("pair $device");
+        $this->send("pair $device->mac");
     }
 
-    public function unpairDevice(string $device) : void
+    public function unpairDevice(Device $device) : void
     {
-        $this->send("remove $device");
+        $this->send("remove $device->mac");
     }
 
-    public function blockDevice(string $device, bool $block = true)
+    public function blockDevice(Device $device, bool $block = true)
     {
-        $this->send(($block ? "block" : "unblock") . " $device");
+        $this->send(($block ? "block" : "unblock") . " $device->mac");
     }
 
-    public function trustDevice(string $device, bool $trust = true)
+    public function trustDevice(Device $device, bool $trust = true)
     {
-        $this->send(($trust ? "trust" : "untrust") . " $device");
+        $this->send(($trust ? "trust" : "untrust") . " $device->mac");
     }
 
-    public function connect(string $device, bool $connect = true)
+    public function connect(Device $device, bool $connect = true)
     {
-        $this->send(($connect ? "connect" : "disconnect") . " $device");
+        $this->send(($connect ? "connect" : "disconnect") . " $device->mac");
     }
 
     public function setPairable(bool $pairable = true) : void
