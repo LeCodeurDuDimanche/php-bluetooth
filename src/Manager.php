@@ -45,7 +45,7 @@ class Manager {
 
     private function getAutoloader() : string
     {
-        $possiblePaths = ["vendor/autoload.php", "../autoload.php"];
+        $possiblePaths = ["vendor/autoload.php", getcwd() . "/vendor/autoload.php", "../vendor/autoload.php", "../../../autoload.php"];
         foreach($possiblePaths as $autoloader)
         {
             if (is_file($autoloader))
