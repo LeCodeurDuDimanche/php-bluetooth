@@ -3,10 +3,30 @@
 
     require("vendor/autoload.php");
 
-
+    //Create new Bluetooth manager, set discoverable and pairable to true
     $manager = new Manager(true, true);
 
+    //Initiate device scan
     $manager->scanDevices();
+
+    //Get paired devices, refresh btInfo until we get at least one
+    do {
+        while (!$manager->updateBluetoothInfo()) usleep(10000);
+        $info = $manager->getBluetoothInfo();
+    } while(!$info->getPairedDevices());
+
+    $device = $info->getPairedDevices()[0];
+    echo "Connecting to paired device $device\n";
+    $manager->connect($device->mac);
+    usleep(10000000);
+    echo "Disconnecting from device\n";
+    $manager->connect($device->mac, false);
+    usleep(5000000);
+    echo "Blocking device\n";
+    $manager->blockDevice($device->mac);
+    usleep(5000000);
+    echo "Unblocking device\n";
+    $manager->blockDevice($device->mac, false);
 
     while (true)
     {
