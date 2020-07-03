@@ -49,7 +49,7 @@ class BluetoothInfo {
         return false;
     }
 
-    public function getAvailableDevice() : array
+    public function getAvailableDevices() : array
     {
         return $this->getDevices(true, false, false);
     }

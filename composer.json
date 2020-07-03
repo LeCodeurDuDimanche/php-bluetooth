@@ -13,5 +13,8 @@
            "lecodeurdudimanche\\PHPBluetooth\\": "src/"
        }
    },
-    "require": {}
+    "require": {
+        "php" : ">7.2",
+        "ext-parallel" : "*"
+    }
 }
