@@ -6,3 +6,4 @@ This package relies on the Bluez stack
 TODO:
      - Add support to exclude unscanned paired devices from scanned devices list
      - Resolve hacky workaround for btInfo sync in thread launching
+     - Add detection of trusted and blocked devices

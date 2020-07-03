@@ -49,6 +49,30 @@ class BluetoothInfo {
         return false;
     }
 
+    public function getAvailableDevice() : array
+    {
+        return $this->getDevices(true, false, false);
+    }
+
+    public function getPairedDevices(): array
+    {
+        return $this->getDevices(false, true, false);
+    }
+
+    public function getConnectedDevices(): array
+    {
+        return $this->getDevices(false, false, true);
+    }
+
+    public function getDevices(bool $onlyAvailable = false, bool $onlyPaired = false, bool $onlyConnected = false) : array
+    {
+        return array_filter(
+            $this->devices,
+            function($device) use ($onlyAvailable, $onlyPaired, $onlyConnected) {
+                return (!$onlyAvailable || $device->available) && (!$onlyPaired || $device->paired) && (!$onlyConnected || $device->connected);
+            });
+    }
+
     public function clearDevices() : void
     {
         $this->devices = [];
