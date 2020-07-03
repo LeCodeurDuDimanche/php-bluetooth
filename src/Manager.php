@@ -43,16 +43,25 @@ class Manager {
             throw new Exceptions\ProcessException("bluetoothd", "Cannot lauch bluetooth service");
     }
 
+    private function getAutoloader() : string
+    {
+        $possiblePaths = ["vendor/autoload.php", "../autoload.php"];
+        foreach($possiblePaths as $autoloader)
+        {
+            if (is_file($autoloader))
+                return $autoloader;
+        }
+        return false;
+    }
+
     private function launchParallelThread() : void
     {
         $this->channelData = new Channel(512);
         $this->channelCommand = new Channel(512);
         $this->channelLog = new Channel(512);
 
-        $runtime = new Runtime;
+        $runtime = new Runtime($this->getAutoloader());
         $this->parallel = $runtime->run(function(Channel $logChannel, Channel $dataChannel, Channel $commands) {
-            //TODO: find a more elegant solution to this
-            require "vendor/autoload.php";
 
             $messagesEvents = new Events;
             $messagesEvents->addChannel($commands);
