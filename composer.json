@@ -1,0 +1,17 @@
+{
+    "name": "lecodeurdudimanche/php-bluetooth",
+    "description": "Simple usage of bluetooth Bluez executables to control bluetooth devices with PHP",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Adrien Duval",
+            "email": "adrien.duval.bonnet@gmail.com"
+        }
+    ],
+    "autoload": {
+       "psr-4": {
+           "lecodeurdudimanche\\PHPBluetooth\\": "src/"
+       }
+   },
+    "require": {}
+}
