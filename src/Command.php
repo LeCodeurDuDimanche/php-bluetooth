@@ -54,12 +54,14 @@ class Command {
     }
 
 
-    public function execute(?array $initialData = null, ?callable $processData = null): array
+    public function execute(?array $initialData = null, ?callable $processData = null, int $refreshFrequency = 25): array
     {
         $this->launch();
 
         $running = true;
         $data = ["out" => "", "err" => ""];
+
+        $sleepTime = 1000000 / $refreshFrequency;
 
         if ($initialData)
         {
@@ -82,7 +84,7 @@ class Command {
 
             $running = $this->isRunning();
 
-            usleep(100000);
+            usleep($sleepTime);
         }
 
         $this->close();
