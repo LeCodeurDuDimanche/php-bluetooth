@@ -51,7 +51,7 @@ class Manager {
         while (! $this->daemonPID = $this->fetchDaemonPID())
         {
             echo "Starting control daemon...\n";
-            $output = (new Command("nohup php $daemonFile > report 2> errors &"))->execute();
+            $output = (new Command("nohup php $daemonFile &"))->execute();
             if ($output['err'])
                 throw new \Exception("Failed to start daemon : $output[err]");
             sleep(1);
