@@ -67,6 +67,12 @@ class BluetoothCtlDaemon {
         }
 
         $command->close();
+
+        foreach ($this->streams as $stream)
+            $stream->close();
+        $this->listeningSocket->close();
+
+        unlink(self::getSocketFile());
     }
 
     // Inter process communciation

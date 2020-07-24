@@ -45,14 +45,6 @@ class Manager {
             throw new Exceptions\ProcessException("bluetoothd", "Cannot lauch bluetooth service");
     }
 
-    private function fetchDaemonPID() : int
-    {
-        $daemonFile = __DIR__ . "/daemon.php";
-        $command = new Command("ps ax|grep \"php $daemonFile\"|grep -v 'grep'");
-        $result = $command->execute();
-        return intval($result["out"]);
-    }
-
     private function ensureCtlDaemonIsRunning() : void
     {
         $daemonFile = __DIR__ . "/daemon.php";
@@ -82,6 +74,22 @@ class Manager {
     }
 
     //API Functions
+    public function fetchDaemonPID() : int
+    {
+        $daemonFile = __DIR__ . "/daemon.php";
+        $command = new Command("ps ax|grep \"php $daemonFile\"|grep -v 'grep'");
+        $result = $command->execute();
+        return intval($result["out"]);
+    }
+
+    public function killDaemon(bool $force = false) : void
+    {
+        if ($force)
+            (new Command("kill -9 $this->daemonPID"))->execute();
+        else
+            $this->stream->write(new Message(Message::TYPE_KILL, ""));
+    }
+
     public function updateBluetoothInfo() : void
     {
         $this->stream->write(new Message(Message::TYPE_QUERY, ""));
