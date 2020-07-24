@@ -14,8 +14,7 @@
        }
    },
     "require": {
-        "php" : ">7.2",
-        "ext-parallel" : "*"
+        "php" : ">7.2"
     },
     "license": "MIT"
 }

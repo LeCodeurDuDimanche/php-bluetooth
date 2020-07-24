@@ -7,7 +7,6 @@ This package relies on the Bluez stack, using the `bluetoothctl` tool.
 ## Requirements
 
 This library relies on the BlueZ stack, so you need to install `bluez` and `bluez-tools` packages.
-This library uses `Parallel` library for multithreading, so it needs a php version with the ZTS extension built-in with paraller extension enabled. More info in the [PHP Manual](https://www.php.net/manual/en/book.parallel.php)
 PHP version >= 7.2
 
 ## Installation
