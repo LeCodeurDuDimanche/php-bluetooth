@@ -11,12 +11,12 @@
 
     //Get paired devices, refresh btInfo until we get at least one
     do {
-        while (!$manager->updateBluetoothInfo()) usleep(10000);
+        $manager->updateBluetoothInfo();
         $info = $manager->getBluetoothInfo();
     } while(!$info->getPairedDevices());
 
     $device = $info->getPairedDevices()[0];
-    echo "Connecting to paired device $device\n";
+    /*echo "Connecting to paired device $device\n";
     $manager->connect($device);
     usleep(10000000);
     echo "Disconnecting from device\n";
@@ -26,15 +26,14 @@
     $manager->blockDevice($device);
     usleep(5000000);
     echo "Unblocking device\n";
-    $manager->blockDevice($device, false);
+    $manager->blockDevice($device, false);*/
 
     while (true)
     {
-        $data = $manager->consumeLogOutput();
-        foreach($data as $line) echo($line);
+        /*$data = $manager->consumeLogOutput();
+        foreach($data as $line) echo($line);*/
+        $manager->updateBluetoothInfo();
+        echo("\n####### DATA #######\n" . $manager->getBluetoothInfo() . "#############\n\n");
 
-        $updated = $manager->updateBluetoothInfo();
-        if ($updated) echo("\n####### DATA #######\n" . $manager->getBluetoothInfo() . "#############\n\n");
-
-        usleep(1000);
+        sleep(3);
     }

@@ -1,14 +1,30 @@
 <?php
 namespace lecodeurdudimanche\PHPBluetooth;
 
-class BluetoothInfo {
+class BluetoothInfo implements \JsonSerializable {
     private $pairable, $discoverable;
     private $devices = [];
 
-    // internal pour l'instant
+    // Internal
     private $listeningToCommands = false;
+    // Not using anymore
     private $updated = false;
 
+    //TODO; check attributes presence and type
+    public static function fromArray(array $data) : BluetoothInfo
+    {
+        $instance = new self;
+        $instance->pairable = $data['pairable'];
+        $instance->discoverable = $data['discoverable'];
+        foreach($data['devices'] as $deviceData)
+            $instance->devices[] = Device::fromArray($deviceData);
+        return $instance;
+    }
+
+    public function jsonSerialize() : array
+    {
+        return get_object_vars($this);
+    }
 
     public function setPairable(bool $status = true) : void
     {

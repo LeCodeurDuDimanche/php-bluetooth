@@ -1,7 +1,7 @@
 <?php
 namespace lecodeurdudimanche\PHPBluetooth;
 
-class Device {
+class Device implements \JsonSerializable{
 
     private $mac;
     private $rssi;
@@ -11,6 +11,23 @@ class Device {
     public function __construct(string $mac)
     {
         $this->mac = $mac;
+    }
+
+    //TODO: check mac is present, check data types
+    public static function fromArray(array $data) : Device
+    {
+        $instance = new Device($data['mac']);
+        foreach($data as $property => $value)
+        {
+            if (property_exists($instance, $property))
+                $instance->$property = $value;
+        }
+        return $instance;
+    }
+
+    public function jsonSerialize() : array
+    {
+        return get_object_vars($this);
     }
 
     public function setConnected(bool $status = true) : void

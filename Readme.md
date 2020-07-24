@@ -47,9 +47,10 @@ Next you can manage the bluetooth connextion through the `Manager`, keep in mind
 ```
 
 ## TODO
+     - Add detection of discoverable and pairable status at startup
      - Add support to exclude unscanned paired devices from scanned devices list
-     - Resolve hacky workaround for btInfo sync in thread launching
      - Add detection of trusted and blocked devices
+     - Add I/O exception handling
 
 ## License
 MIT License
