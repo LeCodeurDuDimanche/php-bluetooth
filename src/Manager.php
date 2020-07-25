@@ -51,7 +51,11 @@ class Manager {
         while (! $this->daemonPID = $this->fetchDaemonPID())
         {
             echo "Starting control daemon...\n";
-            $output = (new Command("nohup php $daemonFile &"))->execute();
+
+            if (!is_dir("/tmp/php-bluetooth"))
+                mkdir("/tmp/php-bluetooth");
+
+            $output = (new Command("nohup php $daemonFile 1> /tmp/php-bluetooth/daemon-out 2> /tmp/php-bluetooth/daemon-err &"))->execute();
             if ($output['err'])
                 throw new \Exception("Failed to start daemon : $output[err]");
             sleep(1);
@@ -76,8 +80,7 @@ class Manager {
     //API Functions
     public function fetchDaemonPID() : int
     {
-        $daemonFile = __DIR__ . "/daemon.php";
-        $command = new Command("ps ax|grep \"php $daemonFile\"|grep -v 'grep'");
+        $command = new Command("ps ax|grep -E \"php .*php-bluetooth/src/daemon.php\"|grep -v 'grep'");
         $result = $command->execute();
         return intval($result["out"]);
     }

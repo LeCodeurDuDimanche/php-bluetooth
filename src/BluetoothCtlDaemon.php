@@ -48,7 +48,6 @@ class BluetoothCtlDaemon {
                 switch($message->getType())
                 {
                 case Message::TYPE_QUERY:
-                    echo "Queried bt info, sending...";
                     $data['stream']->write(new Message(Message::TYPE_BTINFO, $btInfo));
                     break;
                 case Message::TYPE_COMMAND:
