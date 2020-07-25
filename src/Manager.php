@@ -37,7 +37,7 @@ class Manager {
         $maxTries = 3;
         for ($i = 1; $i <= $maxTries && !$this->checkBluetoothdStatus(); $i++)
         {
-            echo "\rStarting bluetoothd service (try $i/$maxTries)...";
+            // echo "\rStarting bluetoothd service (try $i/$maxTries)...";
             (new Command("systemctl start bluetooth"))->execute();
             sleep(1);
         }
@@ -50,7 +50,7 @@ class Manager {
         $daemonFile = __DIR__ . "/daemon.php";
         while (! $this->daemonPID = $this->fetchDaemonPID())
         {
-            echo "Starting control daemon...\n";
+            // echo "Starting control daemon...\n";
 
             if (!is_dir("/tmp/php-bluetooth"))
                 mkdir("/tmp/php-bluetooth");
@@ -60,14 +60,14 @@ class Manager {
                 throw new \Exception("Failed to start daemon : $output[err]");
             sleep(1);
         }
-        echo "Daemon PID is $this->daemonPID\n";
+        // echo "Daemon PID is $this->daemonPID\n";
     }
 
     private function initDaemonCommunication() : void
     {
-        echo "Connecting....";
+        // echo "Connecting....";
         $this->stream = new UnixStream(BluetoothCtlDaemon::getSocketFile());
-        echo "\rConnected !    \n";
+        // echo "\rConnected !    \n";
     }
 
     public function checkBluetoothdStatus(): bool
