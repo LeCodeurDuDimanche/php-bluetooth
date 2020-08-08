@@ -87,6 +87,11 @@ class Command {
             usleep($sleepTime);
         }
 
+        while ($line = fgets($this->stdout, 8192))
+            $data["out"] .= $line;
+        while ($line = fgets($this->stderr, 8192))
+            $data["err"] .= $line;
+
         $this->close();
 
         return $data;
