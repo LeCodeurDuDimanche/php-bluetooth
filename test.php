@@ -4,18 +4,24 @@
     require("vendor/autoload.php");
 
     //Create new Bluetooth manager, set discoverable and pairable to true
+    echo "Lauching manager...";
     $manager = new Manager(true, true);
 
     //Initiate device scan
+
+    echo "\rScanning devices...";
     $manager->scanDevices();
 
+    echo "\r Done                \n";
+    $manager->setDiscoverable(true);
+
     //Get paired devices, refresh btInfo until we get at least one
-    do {
+    /*do {
         $manager->updateBluetoothInfo();
         $info = $manager->getBluetoothInfo();
     } while(!$info->getPairedDevices());
 
-    $device = $info->getPairedDevices()[0];
+    $device = $info->getPairedDevices()[0];*/
     /*echo "Connecting to paired device $device\n";
     $manager->connect($device);
     usleep(10000000);
@@ -32,8 +38,9 @@
     {
         /*$data = $manager->consumeLogOutput();
         foreach($data as $line) echo($line);*/
+        echo "Waiting...";
         $manager->updateBluetoothInfo();
-        echo("\n####### DATA #######\n" . $manager->getBluetoothInfo() . "#############\n\n");
+        echo("\r####### DATA #######\n" . $manager->getBluetoothInfo() . "#############\n\n");
 
         sleep(3);
     }
