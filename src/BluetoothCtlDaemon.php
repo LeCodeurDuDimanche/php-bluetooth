@@ -1,8 +1,8 @@
 <?php
 namespace lecodeurdudimanche\PHPBluetooth;
 
-use lecodeurdudimanche\PHPBluetooth\Exceptions\IOException;
-use lecodeurdudimanche\PHPBluetooth\IO\{Message, UnixStream, UnixStreamServer};
+use lecodeurdudimanche\UnixStream\IOException;
+use lecodeurdudimanche\UnixStream\{Message, UnixStream, UnixStreamServer};
 
 class BluetoothCtlDaemon {
 
@@ -10,7 +10,7 @@ class BluetoothCtlDaemon {
 
     public function __construct()
     {
-        $this->listeningSocket = new UnixStreamServer(self::getSocketFile());
+        $this->listeningSocket = new UnixStreamServer(self::getSocketFile(), new BTMessageSerializer);
         $this->streams = [];
     }
 
@@ -47,16 +47,16 @@ class BluetoothCtlDaemon {
                 //echo "new command : " . $message->getType() . "\n";
                 switch($message->getType())
                 {
-                case Message::TYPE_QUERY:
-                    $data['stream']->write(new Message(Message::TYPE_BTINFO, $btInfo));
+                case MessageType::QUERY:
+                    $data['stream']->write(new Message(MessageType::BTINFO, $btInfo));
                     break;
-                case Message::TYPE_COMMAND:
+                case MessageType::COMMAND:
                     $command->writeString($message->getData());
                     break;
-                case Message::TYPE_CUSTOM_COMMAND:
+                case MessageType::CUSTOM_COMMAND:
                     $this->doCommand($command, $btInfo, $message->getData());
                     break;
-                case Message::TYPE_KILL:
+                case MessageType::KILL:
                     $continue = false;
                     break;
                 }
@@ -89,7 +89,7 @@ class BluetoothCtlDaemon {
         foreach($this->streams as $key => $stream)
         {
             try {
-                $message = $stream->readNext([Message::TYPE_COMMAND, Message::TYPE_CUSTOM_COMMAND, Message::TYPE_KILL, Message::TYPE_QUERY], false);
+                $message = $stream->readNext([MessageType::COMMAND, MessageType::CUSTOM_COMMAND, MessageType::KILL, MessageType::QUERY], false);
                 if ($message)
                     return ["message" => $message, "stream" => &$stream];
 

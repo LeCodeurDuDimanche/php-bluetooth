@@ -4,12 +4,51 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "894f49f18f64b4b851d55fe2fca30943",
-    "packages": [],
+    "content-hash": "d8d89e4d89d1d03af0d8a8605a616a94",
+    "packages": [
+        {
+            "name": "lecodeurdudimanche/php-unix-streams",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/LeCodeurDuDimanche/php-unix-streams.git",
+                "reference": "2bfa039eea071ced4ebfde1057d80c1048cd1939"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/LeCodeurDuDimanche/php-unix-streams/zipball/2bfa039eea071ced4ebfde1057d80c1048cd1939",
+                "reference": "2bfa039eea071ced4ebfde1057d80c1048cd1939",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">7.2"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "lecodeurdudimanche\\UnixStream\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Adrien Duval",
+                    "email": "adrien.duval.bonnet@gmail.com"
+                }
+            ],
+            "description": "(Very) simple library to communicate between two PHP scripts via Unix streams",
+            "time": "2020-09-07T15:21:06+00:00"
+        }
+    ],
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "lecodeurdudimanche/php-unix-streams": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

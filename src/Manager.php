@@ -1,7 +1,7 @@
 <?php
 namespace lecodeurdudimanche\PHPBluetooth;
 
-use lecodeurdudimanche\PHPBluetooth\IO\{UnixStream, Message};
+use lecodeurdudimanche\UnixStream\{UnixStream, Message};
 
 class Manager {
 
@@ -17,11 +17,16 @@ class Manager {
         $this->btInfo->setDiscoverable($discoverable);
         $this->btInfo->setPairable($pairable);
 
+        echo "Starting btctl daemon...\n";
         $this->ensureBluetoothdIsRunning();
+        echo "Starting control daemon...\n";
         $this->ensureCtlDaemonIsRunning();
 
+        echo "Init daemon communication...\n";
         $this->initDaemonCommunication();
 
+
+        echo "Sending sartup routine instructions...\n";
         $this->refreshDevicesList();
 
         $this->powerOn();
@@ -50,7 +55,7 @@ class Manager {
         $daemonFile = __DIR__ . "/daemon.php";
         while (! $this->daemonPID = $this->fetchDaemonPID())
         {
-            // echo "Starting control daemon...\n";
+             echo "Starting control daemon...\n";
 
             if (!is_dir("/tmp/php-bluetooth"))
                 mkdir("/tmp/php-bluetooth");
@@ -66,7 +71,7 @@ class Manager {
     private function initDaemonCommunication() : void
     {
         // echo "Connecting....";
-        $this->stream = new UnixStream(BluetoothCtlDaemon::getSocketFile());
+        $this->stream = new UnixStream(BluetoothCtlDaemon::getSocketFile(), new BTMessageSerializer);
         // echo "\rConnected !    \n";
     }
 
@@ -90,13 +95,13 @@ class Manager {
         if ($force)
             (new Command("kill -9 $this->daemonPID"))->execute();
         else
-            $this->stream->write(new Message(Message::TYPE_KILL, ""));
+            $this->stream->write(new Message(MessageType::KILL, ""));
     }
 
     public function updateBluetoothInfo() : void
     {
-        $this->stream->write(new Message(Message::TYPE_QUERY, ""));
-        $message = $this->stream->readNext([Message::TYPE_BTINFO]);
+        $this->stream->write(new Message(MessageType::QUERY, ""));
+        $message = $this->stream->readNext([MessageType::BTINFO]);
         $this->btInfo = $message->getData();
     }
 
@@ -155,8 +160,9 @@ class Manager {
 
     public function send(string $data, bool $isCustomMessage = false) : void
     {
-        $message = new Message($isCustomMessage ? Message::TYPE_CUSTOM_COMMAND : Message::TYPE_COMMAND, $data);
+        $message = new Message($isCustomMessage ? MessageType::CUSTOM_COMMAND : MessageType::COMMAND, $data);
         $this->stream->write($message);
+        echo "Message sent!\n";
     }
 
     public function powerOn() : void
