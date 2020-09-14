@@ -17,16 +17,16 @@ class Manager {
         $this->btInfo->setDiscoverable($discoverable);
         $this->btInfo->setPairable($pairable);
 
-        echo "Starting btctl daemon...\n";
+    //    echo "Starting btctl daemon...\n";
         $this->ensureBluetoothdIsRunning();
-        echo "Starting control daemon...\n";
+        //echo "Starting control daemon...\n";
         $this->ensureCtlDaemonIsRunning();
 
-        echo "Init daemon communication...\n";
+    //    echo "Init daemon communication...\n";
         $this->initDaemonCommunication();
 
 
-        echo "Sending sartup routine instructions...\n";
+    //    echo "Sending sartup routine instructions...\n";
         $this->refreshDevicesList();
 
         $this->powerOn();
@@ -55,7 +55,7 @@ class Manager {
         $daemonFile = __DIR__ . "/daemon.php";
         while (! $this->daemonPID = $this->fetchDaemonPID())
         {
-             echo "Starting control daemon...\n";
+             //echo "Starting control daemon...\n";
 
             if (!is_dir("/tmp/php-bluetooth"))
                 mkdir("/tmp/php-bluetooth");
@@ -162,7 +162,7 @@ class Manager {
     {
         $message = new Message($isCustomMessage ? MessageType::CUSTOM_COMMAND : MessageType::COMMAND, $data);
         $this->stream->write($message);
-        echo "Message sent!\n";
+        //echo "Message sent!\n";
     }
 
     public function powerOn() : void
