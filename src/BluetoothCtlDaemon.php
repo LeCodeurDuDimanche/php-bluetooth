@@ -140,7 +140,7 @@ class BluetoothCtlDaemon {
             }
 
             //Gather info about each device
-            $props = ["Name", /*"Alias", "Class", "Icon",*/ "Paired", /*"Trusted", "Blocked"*/, "Connected", "RSSI"];
+            $props = ["Name", /*"Alias", "Class", "Icon",*/ "Paired", /*"Trusted", "Blocked",*/ "Connected", "RSSI"];
             foreach ($devicesMAC as $mac)
             {
                 $btInfo->setListening(false);
