@@ -1,6 +1,7 @@
 <?php
 namespace lecodeurdudimanche\PHPBluetooth;
 
+//TODO: add Class, Icon and Blocked
 class Device implements \JsonSerializable{
 
     private $mac;
@@ -50,7 +51,7 @@ class Device implements \JsonSerializable{
         $this->rssi = $rssi;
     }
 
-    public function setName(string $name, ?string $alias) : void
+    public function setName(string $name, ?string $alias = null) : void
     {
         $this->name = $name;
         $this->alias = $alias;

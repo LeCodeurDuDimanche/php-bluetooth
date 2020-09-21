@@ -113,8 +113,6 @@ class BluetoothCtlDaemon {
         case "clear-devices":
             $btInfo->clearDevices();
             break;
-        case "add-scanned-devices":
-            $btInfo->resetAvailableStatus();
         default:
             $btCommands = [
                 "add-connected-devices" => "info",
@@ -122,9 +120,13 @@ class BluetoothCtlDaemon {
                 "add-scanned-devices" => "devices"
             ];
 
-            $command->writeString($btCommands[$cmd]);
+            $command->writeString("devices");
             $btInfo->setListening(false);
 
+            $devicesMAC =  [];
+
+            //TODO: fctorise this code
+            //Gather MAC adress of all devices
             while (! $btInfo->isListening())
             {
                 while (! $line = $command->getNextLine()) usleep(1000);
@@ -133,11 +135,44 @@ class BluetoothCtlDaemon {
                 if (preg_match("/\[.*\].*# $/", $line))
                     $btInfo->setListening(true);
                 else if (preg_match("/$deviceRegex/", $line, $matches)) {
-                    $device = $btInfo->getOrAddDevice($matches[1]);
-                    if ($cmd == "add-connected-devices")
-                        $device->setConnected(true);
-                    else if ($cmd == "add-paired-devices")
-                        $device->setPaired(true);
+                    $devicesMAC[] = $matches[1];
+                }
+            }
+
+            //Gather info about each device
+            $props = ["Name", /*"Alias", "Class", "Icon",*/ "Paired", /*"Trusted", "Blocked"*/, "Connected", "RSSI"];
+            foreach ($devicesMAC as $mac)
+            {
+                $btInfo->setListening(false);
+                $command->writeString("info $mac");
+                $device = $devices->getOrAddDevice($mac);
+
+                // Reset device
+                $device->setAvailable(false);
+                $device->setRSSI(null);
+
+                while (! $btInfo->isListening())
+                {
+                    while (! $line = $command->getNextLine()) usleep(1000);
+                //    echo $line;
+
+                    if (preg_match("/\[.*\].*# $/", $line))
+                        $btInfo->setListening(true);
+                    else {
+                        foreach ($props as $prop)
+                        {
+                            if (preg_match("/^\t$prop: (.*)/", $line, $matches)) {
+                                $value = $matches[1];
+                                if ($prop == "Paired" || $prop == "Connected")
+                                    $value = $value == "yes";
+
+                                $device->{"set$prop"}($value);
+                                //Si on a le RSSI alors c'est que le periph est en range
+                                if ($prop == "RSSI")
+                                    $device->setAvailable(true);
+                            }
+                        }
+                    }
                 }
             }
             break;
