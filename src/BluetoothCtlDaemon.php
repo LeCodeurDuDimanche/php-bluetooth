@@ -134,7 +134,7 @@ class BluetoothCtlDaemon {
             }
 
             //Gather info about each device
-            $props = ["Name", /*"Alias", "Class", "Icon",*/ "Paired", /*"Trusted", "Blocked",*/ "Connected", "RSSI"];
+            $props = ["Name", /*"Alias",*/ "Class", /*"Icon",*/ "Paired", "Trusted", "Blocked", "Connected", "RSSI"];
             foreach ($devicesMAC as $mac)
             {
                 $btInfo->setListening(false);
@@ -143,7 +143,6 @@ class BluetoothCtlDaemon {
 
                 // Reset device
                 $device->setAvailable(false);
-                $device->setRSSI(null);
 
                 while (! $btInfo->isListening())
                 {
@@ -157,10 +156,14 @@ class BluetoothCtlDaemon {
                         {
                             if (preg_match("/^\t$prop: (.*)/", $line, $matches)) {
                                 $value = $matches[1];
-                                if ($prop == "Paired" || $prop == "Connected")
+                                if ($prop == "Paired" || $prop == "Connected" || $prop == "Trusted" || $prop == "Blocked")
                                     $value = $value == "yes";
+                                else if ($prop == "RSSI")
+                                    $value = intval($value);
+                                else if ($prop == "Class")
+                                    $value = intval($value, 16);
 
-                                echo $prop $value;
+                                echo "$prop : $value";
 
                                 $device->{"set$prop"}($value);
                                 //Si on a le RSSI alors c'est que le periph est en range
