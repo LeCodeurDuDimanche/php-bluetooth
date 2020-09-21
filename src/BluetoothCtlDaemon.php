@@ -139,7 +139,7 @@ class BluetoothCtlDaemon {
             {
                 $btInfo->setListening(false);
                 $command->writeString("info $mac");
-                $device = $devices->getOrAddDevice($mac);
+                $device = $btInfo->getOrAddDevice($mac);
 
                 // Reset device
                 $device->setAvailable(false);
