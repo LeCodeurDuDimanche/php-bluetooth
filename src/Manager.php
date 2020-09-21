@@ -123,9 +123,7 @@ class Manager {
     public function refreshDevicesList(): void
     {
         $this->send("clear-devices", true);
-        $this->send("add-connected-devices", true);
-        $this->send("add-paired-devices", true);
-        $this->send("add-scanned-devices", true);
+        $this->send("refresh-devices", true);
     }
 
     public function pairDevice(Device $device) : void

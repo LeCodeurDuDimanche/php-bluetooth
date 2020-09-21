@@ -113,13 +113,7 @@ class BluetoothCtlDaemon {
         case "clear-devices":
             $btInfo->clearDevices();
             break;
-        default:
-            $btCommands = [
-                "add-connected-devices" => "info",
-                "add-paired-devices" => "paired-devices",
-                "add-scanned-devices" => "devices"
-            ];
-
+        case 'refresh-devices':
             $command->writeString("devices");
             $btInfo->setListening(false);
 
@@ -154,7 +148,7 @@ class BluetoothCtlDaemon {
                 while (! $btInfo->isListening())
                 {
                     while (! $line = $command->getNextLine()) usleep(1000);
-                //    echo $line;
+                    echo $line;
 
                     if (preg_match("/\[.*\].*# $/", $line))
                         $btInfo->setListening(true);
@@ -165,6 +159,8 @@ class BluetoothCtlDaemon {
                                 $value = $matches[1];
                                 if ($prop == "Paired" || $prop == "Connected")
                                     $value = $value == "yes";
+
+                                echo $prop $value;
 
                                 $device->{"set$prop"}($value);
                                 //Si on a le RSSI alors c'est que le periph est en range
