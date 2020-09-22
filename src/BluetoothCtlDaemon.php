@@ -44,11 +44,12 @@ class BluetoothCtlDaemon {
             while ($btInfo->isListening() && $data = $this->getNextCommand())
             {
                 $message = $data['message'];
-                //echo "new command : " . $message->getType() . "\n";
+                echo "new command : " . $message->getType() . "\n";
                 switch($message->getType())
                 {
                 case MessageType::QUERY:
                     $data['stream']->write(new Message(MessageType::BTINFO, $btInfo));
+                    echo "Writed BTINFO (" . intval(MessageType::BTINFO) . ") message\n";
                     break;
                 case MessageType::COMMAND:
                     $command->writeString($message->getData());
@@ -79,7 +80,7 @@ class BluetoothCtlDaemon {
     {
         while ($stream = $this->listeningSocket->accept(false))
         {
-            //echo "New connection !\n";
+            echo "New connection !\n";
             $this->streams[] = $stream;
         }
     }

@@ -101,7 +101,9 @@ class Manager {
     public function updateBluetoothInfo() : void
     {
         $this->stream->write(new Message(MessageType::QUERY, ""));
+        //echo "Sent Query (" . MessageType::QUERY . ")\n";
         $message = $this->stream->readNext([MessageType::BTINFO]);
+        //echo "Received response\n";
         $this->btInfo = $message->getData();
     }
 
@@ -160,7 +162,7 @@ class Manager {
     {
         $message = new Message($isCustomMessage ? MessageType::CUSTOM_COMMAND : MessageType::COMMAND, $data);
         $this->stream->write($message);
-        //echo "Message sent!\n";
+        //echo "Message sent (" . ($isCustomMessage ? MessageType::CUSTOM_COMMAND : MessageType::COMMAND) . ")!\n";
     }
 
     public function powerOn() : void
