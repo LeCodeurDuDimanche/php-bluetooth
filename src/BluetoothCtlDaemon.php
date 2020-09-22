@@ -147,7 +147,7 @@ class BluetoothCtlDaemon {
                 while (! $btInfo->isListening())
                 {
                     while (! $line = $command->getNextLine()) usleep(1000);
-                    echo $line;
+                    //echo $line;
 
                     if (preg_match("/\[.*\].*# $/", $line))
                         $btInfo->setListening(true);
@@ -163,7 +163,7 @@ class BluetoothCtlDaemon {
                                 else if ($prop == "Class")
                                     $value = intval($value, 16);
 
-                                echo "$prop : $value";
+                            //    echo "$prop : $value";
 
                                 $device->{"set$prop"}($value);
                                 //Si on a le RSSI alors c'est que le periph est en range
