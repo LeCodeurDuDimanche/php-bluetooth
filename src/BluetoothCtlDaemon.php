@@ -3,6 +3,7 @@ namespace lecodeurdudimanche\PHPBluetooth;
 
 use lecodeurdudimanche\UnixStream\IOException;
 use lecodeurdudimanche\UnixStream\{Message, UnixStream, UnixStreamServer};
+use lecodeurdudimanche\Processes\Command;
 
 class BluetoothCtlDaemon {
 

@@ -2,6 +2,7 @@
 namespace lecodeurdudimanche\PHPBluetooth;
 
 use lecodeurdudimanche\UnixStream\{UnixStream, Message};
+use lecodeurdudimanche\Processes\Command;
 
 class Manager {
 
