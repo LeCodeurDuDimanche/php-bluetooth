@@ -4,8 +4,49 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d8d89e4d89d1d03af0d8a8605a616a94",
+    "content-hash": "c55d77a823eda84dff68eeb498d6117b",
     "packages": [
+        {
+            "name": "lecodeurdudimanche/php-process-launcher",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/LeCodeurDuDimanche/php-process-launcher.git",
+                "reference": "433832d8e45bba31cd24d93a94685864bfe7d272"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/LeCodeurDuDimanche/php-process-launcher/zipball/433832d8e45bba31cd24d93a94685864bfe7d272",
+                "reference": "433832d8e45bba31cd24d93a94685864bfe7d272",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">7.2"
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "lecodeurdudimanche\\Processes\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Adrien Duval",
+                    "email": "adrien.duval.bonnet@gmail.com"
+                }
+            ],
+            "description": "Simple class to launch Unix processes through shell ; wrapper and utilities around proc_open() function",
+            "support": {
+                "issues": "https://github.com/LeCodeurDuDimanche/php-process-launcher/issues",
+                "source": "https://github.com/LeCodeurDuDimanche/php-process-launcher/tree/master"
+            },
+            "time": "2020-12-20T17:52:09+00:00"
+        },
         {
             "name": "lecodeurdudimanche/php-unix-streams",
             "version": "dev-master",
@@ -23,6 +64,7 @@
             "require": {
                 "php": ">7.2"
             },
+            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -40,6 +82,10 @@
                 }
             ],
             "description": "(Very) simple library to communicate between two PHP scripts via Unix streams",
+            "support": {
+                "issues": "https://github.com/LeCodeurDuDimanche/php-unix-streams/issues",
+                "source": "https://github.com/LeCodeurDuDimanche/php-unix-streams/tree/master"
+            },
             "time": "2020-09-07T15:21:06+00:00"
         }
     ],
@@ -47,7 +93,8 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "lecodeurdudimanche/php-unix-streams": 20
+        "lecodeurdudimanche/php-unix-streams": 20,
+        "lecodeurdudimanche/php-process-launcher": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
@@ -55,5 +102,5 @@
         "php": ">7.2"
     },
     "platform-dev": [],
-    "plugin-api-version": "1.1.0"
+    "plugin-api-version": "2.0.0"
 }
